@@ -1,35 +1,17 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
-import {
-  Container,
-  Header,
-  HeaderButtons,
-  HeaderSubtitle,
-  HeaderTexts,
-  HeaderTitle,
-  Notification,
-  NotificationActive,
-  NotificationButton,
-} from './styles';
+
+import {Container} from './styles';
+
+import Header from '../../Components/Home/Header';
+import Cards from '../../Components/Home/Cards';
 
 const Home = () => {
-  const [notificationActive, setNotificationActive] = React.useState(false);
-
   return (
     <Container>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      <Header>
-        <HeaderTexts>
-          <HeaderTitle>Bem vindo de volta,</HeaderTitle>
-          <HeaderSubtitle>Victor Augusto</HeaderSubtitle>
-        </HeaderTexts>
-        <HeaderButtons>
-          <NotificationButton
-            onPress={() => setNotificationActive(!notificationActive)}>
-            {notificationActive ? <NotificationActive /> : <Notification />}
-          </NotificationButton>
-        </HeaderButtons>
-      </Header>
+      <Header />
+      <Cards />
     </Container>
   );
 };

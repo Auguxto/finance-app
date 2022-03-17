@@ -1,48 +1,107 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import rn from 'react-native';
-import {ListRenderItem} from 'react-native';
+import {Animated, View, Dimensions} from 'react-native';
 
-import Card, {CardProps} from '../Card';
+import {Balance, Card, CardWrapper, Container, Title, Today} from './styles';
 
-import {CardList, Container} from './styles';
+const {width, height} = Dimensions.get('screen');
+
+const DATA = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'Balance',
+    today: 'Today, 08 Sept 2022',
+    balance: '$ 6,420.00',
+    background: '#031A6E',
+  },
+  {
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Balance',
+    today: 'Today, 08 Sept 2022',
+    balance: '$ 1,020.00',
+    background: '#E89494',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    title: 'Balance',
+    today: 'Today, 08 Sept 2022',
+    balance: '$ 920.00',
+    background: '#49CBB3',
+  },
+];
+
+const WIDTH = width;
+
+const Indicator = ({scrollX}: {scrollX: Animated.Value}) => {
+  return (
+    <View style={{flexDirection: 'row', alignSelf: 'center', marginTop: 22}}>
+      {DATA.map((_, i) => {
+        const inputRange = [(i - 1) * WIDTH, i * WIDTH, (i + 1) * WIDTH];
+        const scale = scrollX.interpolate({
+          inputRange,
+          outputRange: [0.8, 1.4, 0.8],
+          extrapolate: 'clamp',
+        });
+        const opacity = scrollX.interpolate({
+          inputRange,
+          outputRange: [0.4, 1, 0.4],
+          extrapolate: 'clamp',
+        });
+        return (
+          <Animated.View
+            key={`indicator-${i}`}
+            style={{
+              height: 10,
+              width: 10,
+              borderRadius: 5,
+              backgroundColor: '#031A6E',
+              margin: 5,
+              marginBottom: 24,
+              transform: [{scale}],
+              opacity,
+            }}
+          />
+        );
+      })}
+    </View>
+  );
+};
 
 const Cards = () => {
-  const cards: CardProps[] = [
-    {
-      id: 1,
-      title: 'Balance',
-      today: '10, Mar 2022',
-      balance: '$ 0,00',
-    },
-    {
-      id: 2,
-      title: 'Balance',
-      today: '08, Sept 2022',
-      balance: '$ 0,00',
-    },
-  ];
-
-  const Item = ({item}: {item: CardProps}) => (
-    <Card
-      id={item.id}
-      balance={item.balance}
-      today={item.today}
-      title={item.title}
-    />
-  );
-
-  const renderItem: ListRenderItem<CardProps> = ({item}: {item: CardProps}) => (
-    <Item item={item} />
-  );
+  const scrollX = React.useRef(new Animated.Value(0)).current;
 
   return (
     <Container>
-      <CardList
-        data={cards}
-        horizontal={true}
-        keyExtractor={(item: CardProps) => item.id.toString()}
-        renderItem={renderItem}
+      <Animated.FlatList
+        data={DATA}
+        keyExtractor={item => item.id}
+        horizontal
+        scrollEventThrottle={32}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {contentOffset: {x: scrollX}},
+            },
+          ],
+          {useNativeDriver: false},
+        )}
+        showsHorizontalScrollIndicator={false}
+        pagingEnabled
+        renderItem={({item}) => (
+          <CardWrapper width={width}>
+            <Card
+              key={item.id}
+              width={width}
+              height={height}
+              background={item.background}>
+              <Title>{item.title}</Title>
+              <Today>{item.today}</Today>
+              <Balance>{item.balance}</Balance>
+            </Card>
+          </CardWrapper>
+        )}
       />
+      <Indicator scrollX={scrollX} />
     </Container>
   );
 };

@@ -1,3 +1,4 @@
+import {Animated} from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
@@ -9,7 +10,7 @@ export const CardWrapper = styled.View<{width: number}>`
   width: ${props => props.width};
 `;
 
-export const Card = styled.View<{
+export const Card = styled(Animated.View)<{
   width: number;
   height: number;
   background: string;

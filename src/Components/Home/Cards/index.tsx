@@ -76,30 +76,49 @@ const Cards = () => {
         data={DATA}
         keyExtractor={item => item.id}
         horizontal
-        scrollEventThrottle={32}
+        scrollEventThrottle={16}
         onScroll={Animated.event(
           [
             {
               nativeEvent: {contentOffset: {x: scrollX}},
             },
           ],
-          {useNativeDriver: false},
+          {useNativeDriver: true},
         )}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        renderItem={({item}) => (
-          <CardWrapper width={width}>
-            <Card
-              key={item.id}
-              width={width}
-              height={height}
-              background={item.background}>
-              <Title>{item.title}</Title>
-              <Today>{item.today}</Today>
-              <Balance>{item.balance}</Balance>
-            </Card>
-          </CardWrapper>
-        )}
+        renderItem={({item, index}) => {
+          const inputRange = [
+            (index - 1) * WIDTH,
+            index * WIDTH,
+            (index + 1) * WIDTH,
+          ];
+          const scale = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.4, 1, 0.4],
+            extrapolate: 'clamp',
+          });
+          const opacity = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.7, 1, 0.7],
+            extrapolate: 'clamp',
+          });
+
+          return (
+            <CardWrapper width={width}>
+              <Card
+                key={item.id}
+                width={width}
+                height={height}
+                background={item.background}
+                style={{opacity, transform: [{scale}]}}>
+                <Title>{item.title}</Title>
+                <Today>{item.today}</Today>
+                <Balance>{item.balance}</Balance>
+              </Card>
+            </CardWrapper>
+          );
+        }}
       />
       <Indicator scrollX={scrollX} />
     </Container>

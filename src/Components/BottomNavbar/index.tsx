@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
+import {RootStackParamList} from '../../Screens/RootStackParams';
 
 import {
   CardIcon,
@@ -10,13 +11,6 @@ import {
   ProfileIcon,
   StatsIcon,
 } from './styles';
-
-type RootStackParamList = {
-  Home: undefined;
-  Stats: undefined;
-  Card: undefined;
-  Profile: undefined;
-};
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -31,13 +25,22 @@ const BottomNavbar = () => {
         }}>
         <HomeIcon />
       </NavigationButton>
-      <NavigationButton>
+      <NavigationButton
+        onPress={() => {
+          navigation.navigate('Stats');
+        }}>
         <StatsIcon />
       </NavigationButton>
-      <NavigationButton>
+      <NavigationButton
+        onPress={() => {
+          navigation.navigate('Card');
+        }}>
         <CardIcon />
       </NavigationButton>
-      <NavigationButton>
+      <NavigationButton
+        onPress={() => {
+          navigation.navigate('Profile');
+        }}>
         <ProfileIcon />
       </NavigationButton>
     </Container>

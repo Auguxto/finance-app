@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {Animated, StyleSheet} from 'react-native';
-import {RootStackParamList} from '../../../Screens/RootStackPrams';
+import {RootStackParamList} from '../../../Screens/RootStackParams';
 
 import {
   Container,

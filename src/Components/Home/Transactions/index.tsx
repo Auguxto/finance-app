@@ -1,5 +1,8 @@
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {Animated, StyleSheet} from 'react-native';
+import {RootStackParamList} from '../../../Screens/RootStackPrams';
 
 import {
   Container,
@@ -78,6 +81,8 @@ const DATA = [
   },
 ];
 
+type NavigationProp = StackNavigationProp<RootStackParamList>;
+
 const Transactions = () => {
   function getIcon(icon: string) {
     switch (icon) {
@@ -92,11 +97,16 @@ const Transactions = () => {
     }
   }
 
+  const navigation = useNavigation<NavigationProp>();
+
   return (
     <Container>
       <Header>
         <Title>Recent Transactions</Title>
-        <HeaderButton>
+        <HeaderButton
+          onPress={() => {
+            navigation.navigate('History');
+          }}>
           <HeaderButtonText>See All</HeaderButtonText>
         </HeaderButton>
       </Header>

@@ -5,6 +5,7 @@ import {Container} from './styles';
 
 import Header from '../../Components/Home/Header';
 import Cards from '../../Components/Home/Cards';
+import Transactions from '../../Components/Home/Transactions';
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Header />
       <Cards />
+      <Transactions />
     </Container>
   );
 };
